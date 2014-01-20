@@ -32,23 +32,20 @@ $(document).on('ready', function(){
     //text body
     //etc
     $message = $('<div class="msgContainer"></div>');
-    $message.text(text+'\n'+ prettyDate(updatedAt));
+    $message.text(username + ": " + text+'\n'+ prettyDate(updatedAt));
     return $message;
   }
 
   var display = function(msgArray){
     var msg;
     if ($chatContainer.children().length){
-      console.log('THERE WERE SO MUCH CHILDREN');
       for (var i = 0; i < msgArray.results.length; i++){
         $msg = message(msgArray.results[i].text, msgArray.results[i].username, msgArray.results[i].updatedAt);
-        console.log($chatContainer.children()[i]);
         $msgDiv = $chatContainer.find("div").eq(i);
         $msgDiv.text($msg.text());
 
       }
     } else{
-      console.log('THERE WERE NO CHILDREN');
       for (var i=0; i< msgArray.results.length; i++){
         $msg = message(msgArray.results[i].text, msgArray.results[i].username, msgArray.results[i].updatedAt);
         $chatContainer.append($msg);
@@ -57,7 +54,6 @@ $(document).on('ready', function(){
   }
 
   var fetch = function(){
-    console.log("that's so fetch!!!");
     $.ajax({
       url: 'https://api.parse.com/1/classes/chatterbox',
       type: 'GET',
@@ -66,7 +62,6 @@ $(document).on('ready', function(){
         display(data);
       },
       error: function (data){
-        console.log('no data fetched');
       }
     });
   };
@@ -79,22 +74,29 @@ $(document).on('ready', function(){
       data: JSON.stringify(message),
       contentType: 'application/json',
       success: function (data) {
-        console.log('chatterbox: Message sent');
+        
       },
       error: function (data) {
         // see: https://developer.mozilla.org/en-US/docs/Web/API/console.error
-        console.error('chatterbox: Failed to send message');
       }
     });
   };
 
-
-
-
+  var messageToSend = {
+    'username': 'adam&&nick',
+    'text': 'all ya\'ll be trippin\'!!!',
+    'roomname': '4chan'
+  };
 
   fetch();
   setInterval(fetch.bind(this), 2000);
+  // sendMsg(messageToSend);
 });
 
-
-
+/*
+var message = {
+  'username': 'shawndrost',
+  'text': 'trololo',
+  'roomname': '4chan'
+};
+*/
