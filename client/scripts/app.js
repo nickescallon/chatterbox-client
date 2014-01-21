@@ -64,7 +64,7 @@ $(document).on('ready', function(){
               roomName = shortenString(roomName, 18);
             }
             var $roomLable = $('<li class="roomLabel"><a href="#"></a></li>');
-            $roomLable.text(roomName);
+            $roomLable.find('a').text(roomName);
             $('#roomList').append($roomLable);
             rooms[key] = 1;
         }
@@ -93,7 +93,7 @@ $(document).on('ready', function(){
               userName = shortenString(userName, 18);
             }
             var $userLable = $('<li class="userLabel"><a href="#"></a></li>');
-            $userLable.text(userName);
+            $userLable.find('a').text(userName);
             $('#userList').append($userLable);
             users[key] = 1;
         }
