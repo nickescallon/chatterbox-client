@@ -26,10 +26,20 @@ $(document).on('ready', function(){
   var user = loadPageVar('username');
   var $chatContainer = $('#chatContainer');
 
+  var currentRoom = '4chan';
+  var roomList = {};
+
+  var shortenString = function(str, limit){
+    str = str.split('').splice(0,limit).join('');
+    str+='...';
+    return str;
+  }
+
   var message = function(text, username, updatedAt){
     if (text && text.length > 140){
-      text = text.split('').splice(0,141).join('');
-      text+='...';
+      // text = text.split('').splice(0,141).join('');
+      // text+='...';
+      text = shortenString(text, 141);
     }
     $message = $(
       '<div class="msgContainer">' +
@@ -45,22 +55,52 @@ $(document).on('ready', function(){
     return $message;
   }
 
-  var display = function(msgArray){
+  var populateRoomList = function(roomname){
+    // debugger;
+    if(roomname){
+      if (roomList[roomname] === undefined){
+        roomList[roomname] = 0;
+      }
+    }
+  }
+
+  var displayRoomList = function(rooms){
+    if (Object.keys(rooms).length){
+      for (key in rooms){
+        if (rooms[key] === 0){
+            var roomName = key;
+            if (roomName && roomName.length > 18){
+              roomName = shortenString(roomName, 18);
+            }
+            $('ul').append('<li>'+roomName+'</li>');
+            rooms[key] = 1;
+        }
+      }
+    }
+  }
+
+  var displayMsgs = function(msgArray){
     var msg;
     if ($chatContainer.children().length){
       for (var i = msgArray.results.length-1; i >= 0; i--){
-        $msg = message(msgArray.results[i].text, msgArray.results[i].username, msgArray.results[i].updatedAt);
-        $chatContainer.children().last().remove();
-        $chatContainer.prepend($msg);
-
+        if(msgArray.results[i].roomname === currentRoom){
+          $msg = message(msgArray.results[i].text, msgArray.results[i].username, msgArray.results[i].updatedAt);
+            $chatContainer.children().last().remove();
+            $chatContainer.prepend($msg);
+          }
+          populateRoomList(msgArray.results[i].roomname);
       }
     } else {
       for (var i=0; i< msgArray.results.length; i++){
-        $msg = message(msgArray.results[i].text, msgArray.results[i].username, msgArray.results[i].updatedAt);
-        $chatContainer.append($msg);
+        if(msgArray.results[i].roomname === currentRoom){
+          $msg = message(msgArray.results[i].text, msgArray.results[i].username, msgArray.results[i].updatedAt);
+          $chatContainer.append($msg);
+        }
+        populateRoomList(msgArray.results[i].roomname);
+        // debugger;
       }
     }
-    fetch();
+    console.log(roomList)
   }
 
   var fetch = function(){
@@ -68,9 +108,7 @@ $(document).on('ready', function(){
       url: 'https://api.parse.com/1/classes/chatterbox',
       type: 'GET',
       data: {order: '-updatedAt', limit: 20},
-      success: function (data){
-        display(data);
-      },
+      success: displayMsgs,
       error: function (data){
       }
     });
@@ -84,8 +122,8 @@ $(document).on('ready', function(){
       data: JSON.stringify(message),
       contentType: 'application/json',
       success: function (data) {
-        
       },
+
       error: function (data) {
         // see: https://developer.mozilla.org/en-US/docs/Web/API/console.error
       }
@@ -99,7 +137,7 @@ $(document).on('ready', function(){
     var msgToSend = {};
     msgToSend.text = msg;
     msgToSend.username = user;
-    msgToSend.roomname = '4chan';
+    msgToSend.roomname = currentRoom;
     sendMsg(msgToSend);
     $('#msgInput').val('');
     fetch();
@@ -112,13 +150,7 @@ $(document).on('ready', function(){
   })
 
   fetch();
-  setInterval(fetch.bind(this), 5000);
-});
 
-/*
-var message = {
-  'username': 'shawndrost',
-  'text': 'trololo',
-  'roomname': '4chan'
-};
-*/
+  setInterval(fetch.bind(this), 5000);
+  setInterval(displayRoomList.bind(this, roomList), 5000);
+});

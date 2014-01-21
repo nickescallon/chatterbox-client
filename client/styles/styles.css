@@ -1,17 +1,20 @@
 body {
     background: #eee;
     text-align: center;
-    padding: 0 25px;
+    margin: 0;
 }
 
 #main {
-    width: 500px;
+    width: 100%;
+    height: 100px;
     margin: auto;
+    margin-bottom: 50px;
     text-align: left;
-    background: white;
-    padding: 50px 60px;
-    border: solid #ddd;
-    border-width: 0 1px 1px 1px;
+    background: black;
+    color: white;
+    padding: 10px 10px;
+    /*border: solid #ddd;*/
+    /*border-width: 0 1px 1px 1px;*/
 }
 
 #main h1 {
@@ -19,11 +22,53 @@ body {
     font-size: 35px;
 }
 
-#chatContainer {
-    display: block;
+nav {
+    float: left;
+    width: 200px;
+    height: 750px;
+    display: inline-block;
+    word-wrap: break-word;
+    text-align: left;
+    border: 1px solid black;
+    background-color: black;
+}
+
+.roomsTitle {
+    padding-top: 10px;
+    color: red;
+    text-align: center;
+    text-decoration: underline;
+}
+
+.slideToggle {
+    float: left;
+    width: 15px;
+    height: 750px;
+    display: inline-block;
+    word-wrap: break-word;
+    text-align: left;
+    border: 1px solid black;
+    border-radius: 0px 15px 15px 0px;
+    background-color: black;
+}
+
+nav ul li {
+    list-style-type: none;
+    color: red;
+    padding: 10px;
+}
+
+#container {
     width: 100%;
-    margin-left: auto;
-    margin-right: auto;
+    display: inline-block;
+}
+
+#chatContainer {
+    display: inline-block;
+    /*width: 100%;*/
+    /*height: 400px;*/
+    /*margin-left: auto;*/
+    /*margin-right: auto;*/
 }
 .msgContainer {
     /*border: 1px solid black;*/

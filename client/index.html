@@ -12,13 +12,21 @@
       </head>
   <body>
     <script src="scripts/app.js"></script>
-
-    <div id="main">
-      <h1>Chat-Client</h1>
-      <input id="msgInput" placeholder="write something here..." maxlength="140"></input>
-      <button id="submitMsg">submit</button>
+    <header>
+      <div id="main">
+        <h1>THIS IS WHERE WE CHAT</h1>
+        <input id="msgInput" placeholder="write something here..." maxlength="140"></input>
+        <button id="submitMsg">submit</button>
+      </div>
+    </header>
+    <div id="container">
+    <nav>
+      <div class="roomsTitle">::room list::</div>
+      <ul></ul>
+    </nav>
+    <div class="slideToggle"></div>
+      <div id="chatContainer"></div>
     </div>
-    <div id="chatContainer"></div>
 
   </body>
 </html>
