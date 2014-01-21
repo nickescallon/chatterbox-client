@@ -65,8 +65,37 @@ $(document).on('ready', function(){
             }
             var $roomLable = $('<li class="roomLabel"><a href="#"></a></li>');
             $roomLable.text(roomName);
-            $('ul').append($roomLable);
+            $('#roomList').append($roomLable);
             rooms[key] = 1;
+        }
+      }
+    }
+  }
+
+  //USER LIST FUNCTIONS
+  //Accepts a string and adds it to the userList object
+  var populateUserList = function(username){
+    // debugger;
+    if(username){
+      if (userList[username] === undefined){
+        userList[username] = 0;
+      }
+    }
+  }
+  
+  //Iterates through the roomlist object and appends them to the roomList UL
+  var displayUserList = function(users){
+    if (Object.keys(users).length){
+      for (key in users){
+        if (users[key] === 0){
+            var userName = key;
+            if (userName && userName.length > 18){
+              userName = shortenString(userName, 18);
+            }
+            var $userLable = $('<li class="userLabel"><a href="#"></a></li>');
+            $userLable.text(userName);
+            $('#userList').append($userLable);
+            users[key] = 1;
         }
       }
     }
@@ -106,6 +135,7 @@ $(document).on('ready', function(){
             $chatContainer.prepend($msg);
           }
           populateRoomList(msgArray.results[i].roomname);
+          populateUserList(msgArray.results[i].username);
       }
     } else {
       for (var i=0; i< msgArray.results.length; i++){
@@ -114,10 +144,11 @@ $(document).on('ready', function(){
           $chatContainer.append($msg);
         }
         populateRoomList(msgArray.results[i].roomname);
-        // debugger;
+        populateUserList(msgArray.results[i].username);
       }
     }
     displayRoomList(roomList);
+    displayUserList(userList);
   }
   
   //Fetches the most recent messages from the server and calls displayMsgs upon success
