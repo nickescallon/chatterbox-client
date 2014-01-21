@@ -63,7 +63,7 @@ $(document).on('ready', function(){
             if (roomName && roomName.length > 18){
               roomName = shortenString(roomName, 18);
             }
-            var $roomLable = $('<li class="roomLabel"><a href="#"></a></li>');
+            var $roomLable = $('<li class="roomLabel" style="display: none;"><a href="#"></a></li>');
             $roomLable.find('a').text(roomName);
             $('#roomList').append($roomLable);
             rooms[key] = 1;
@@ -92,7 +92,7 @@ $(document).on('ready', function(){
             if (userName && userName.length > 18){
               userName = shortenString(userName, 18);
             }
-            var $userLable = $('<li class="userLabel"><a href="#"></a></li>');
+            var $userLable = $('<li class="userLabel" style="display: none;"><a href="#"></a></li>');
             $userLable.find('a').text(userName);
             $('#userList').append($userLable);
             users[key] = 1;
@@ -208,16 +208,16 @@ $(document).on('ready', function(){
 
   $('#arrow').on('click', function(){
   	if ($('.nav').width() > 0) {
-  	  $('.nav').find('.roomsTitle').fadeOut(200);
-  	  $('.nav').find('ul').fadeOut(200);
+  		console.log("huh?")
+  	  $('.nav').find('.title').fadeOut(200);
+  	  $('.nav').find('.roomLabel').fadeOut(200);
+  	  $('.nav').find('.userLabel').fadeOut(200);
   	  $('.nav').animate({width:0}, 400);
   	} else {
-  	  $('.nav').animate({width:200}, 400, function(){
-  	  // 	$('.nav').find('.roomsTitle').fadeIn(200);
-  	  // $('.nav').find('ul').fadeIn(200);
-  	  });
-  	  $('.nav').find('.roomsTitle').fadeIn(600);
-  	  $('.nav').find('ul').fadeIn(600);
+  	  $('.nav').animate({width:200}, 400);
+  	  $('.nav').find('.title').fadeIn(600);
+  	  $('.nav').find('.roomLabel').fadeIn(600);
+  	  $('.nav').find('.userLabel').fadeIn(600);
   	}
     
   });

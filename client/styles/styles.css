@@ -35,7 +35,7 @@ header {
 
 nav {
     float: left;
-    width: 200px;
+    width: 0px;
     height: 750px;
     margin-top: 25px;
     display: inline-block;
@@ -50,11 +50,13 @@ nav a {
     color: red;
 }
 
-.roomsTitle {
+.title {
+    display: none;
     padding-top: 10px;
+    margin-left: 10px;
     color: red;
     text-align: center;
-    text-decoration: underline;
+    border-bottom: 1px solid red;
 }
 
 .slideToggle {
@@ -78,6 +80,8 @@ nav a {
 }
 
 nav ul li {
+    text-align: center;
+    margin-right: 18%;
     list-style-type: none;
     color: red;
     padding: 10px;
