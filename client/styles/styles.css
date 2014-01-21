@@ -33,6 +33,11 @@ nav {
     background-color: black;
 }
 
+nav a {
+    text-decoration: none;
+    color: red;
+}
+
 .roomsTitle {
     padding-top: 10px;
     color: red;

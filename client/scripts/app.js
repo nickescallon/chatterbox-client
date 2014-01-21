@@ -72,7 +72,7 @@ $(document).on('ready', function(){
             if (roomName && roomName.length > 18){
               roomName = shortenString(roomName, 18);
             }
-            $('ul').append('<li>'+roomName+'</li>');
+            $('ul').append('<li class="roomLabel"><a href="#">'+roomName+'</a></li>');
             rooms[key] = 1;
         }
       }
@@ -100,7 +100,7 @@ $(document).on('ready', function(){
         // debugger;
       }
     }
-    console.log(roomList)
+    displayRoomList(roomList);
   }
 
   var fetch = function(){
@@ -147,10 +147,16 @@ $(document).on('ready', function(){
     if (e.which == 13){
       $('button').click();
     }
-  })
+  });
+
+  $('.nav').on('click', 'a', function(e){
+    e.preventDefault();
+    $chatContainer.children().remove();
+    currentRoom = $(this).text();
+    fetch();
+  });
 
   fetch();
-
-  setInterval(fetch.bind(this), 5000);
-  setInterval(displayRoomList.bind(this, roomList), 5000);
+  
+  setInterval(fetch.bind(this), 3000);
 });
