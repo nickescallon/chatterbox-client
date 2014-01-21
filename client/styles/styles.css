@@ -52,17 +52,15 @@ nav a {
     white-space: nowrap;
 }
 
-.navHeight {
+.roomHeight{
+    height: 32%;
+    margin-bottom: 20px;
     overflow: scroll;
 }
 
-.navHeight:first-child{
-    height: 32%;
-    margin-bottom: 20px;
-}
-
-.navHeight:last-child{
+.userHeight{
     height: 50%;
+    overflow: scroll;
 }
 
 .title {
