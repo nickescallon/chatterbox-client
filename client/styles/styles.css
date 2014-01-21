@@ -58,16 +58,23 @@ nav a {
 }
 
 .slideToggle {
+    position: relative;
     float: left;
     width: 15px;
     height: 750px;
     margin-top: 25px;
     display: inline-block;
     word-wrap: break-word;
+    color: red;
     text-align: left;
     border: 1px solid black;
     border-radius: 0px 15px 15px 0px;
     background-color: black;
+}
+
+#arrow {
+    position: absolute;
+    top: 50%;
 }
 
 nav ul li {
