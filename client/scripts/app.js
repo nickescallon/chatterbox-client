@@ -27,16 +27,22 @@ $(document).on('ready', function(){
   var $chatContainer = $('#chatContainer');
 
   var message = function(text, username, updatedAt){
-    //plan out and structure message div
-    //to have header
-    //text body
-    //etc
     if (text && text.length > 140){
       text = text.split('').splice(0,141).join('');
       text+='...';
     }
-    $message = $('<div class="msgContainer"></div>');
-    $message.text(username + ": " + text+'\n'+ prettyDate(updatedAt));    
+    $message = $(
+      '<div class="msgContainer">' +
+        '<div class="msgHeader">' +
+          '<div class="userName" data-username=' + username + '><span>' + username + '</span></div>'+
+          '<div class="timestamp" data-created="' + (updatedAt || new Date()) + '"><span>' + prettyDate(updatedAt || new Date()) + '</span></div>' +
+        '</div>' +
+        '<div class="msgContent"></div>' +
+      '</div>'
+    );
+
+    // $message.text(username + ": " + text+'\n'+ prettyDate(updatedAt));    
+    $message.find('.msgContent').text(text);
     return $message;
   }
 
@@ -54,16 +60,14 @@ $(document).on('ready', function(){
     if ($chatContainer.children().length){
       for (var i = 0; i < msgArray.results.length; i++){
         $msg = message(msgArray.results[i].text, msgArray.results[i].username, msgArray.results[i].updatedAt);
-        // $msgDiv = $chatContainer.find("div").eq(i);
-        // $msgDiv.text($msg.text());
         $chatContainer.children().last().remove();
-        $chatContainer.prepend($msg);
+        $chatContainer.append($msg);
 
       }
     } else {
       for (var i=0; i< msgArray.results.length; i++){
         $msg = message(msgArray.results[i].text, msgArray.results[i].username, msgArray.results[i].updatedAt);
-        $chatContainer.prepend($msg);
+        $chatContainer.append($msg);
       }
     }
   }
@@ -99,7 +103,7 @@ $(document).on('ready', function(){
 
   var messageToSend = {
     'username': 'adam&&nick',
-    'text': 'Bacon ipsum dolor sit amet andouille drumstick pastrami, tri-tip pig porchetta rump. Ribeye pork loin pork chop kevin ham pig, ham hock frankfurter doner strip steak biltong tri-tip pastrami turducken pork belly. Porchetta ball tip tail beef ribs, andouille brisket shank t-bone salami rump strip steak doner. Venison chuck rump ball tip. Bacon drumstick pork chop, bresaola pig beef ribs meatloaf chuck chicken pork beef jerky flank capicola cow. Pork belly shankle filet mignon short ribs corned beef. Leberkas tri-tip chicken beef, porchetta kevin fatback jerky bresaola ribeye capicola. Meatball pancetta pig, tongue andouille porchetta venison pork belly tail spare ribs pork chop frankfurter. Turkey prosciutto biltong, sirloin chicken ham pork. Flank tail meatball beef ribs prosciutto. Bresaola pastrami salami, cow fatback tail short loin jerky meatball shoulder filet mignon kevin pork chop flank. Drumstick ball tip ham jerky. Turducken jowl jerky t-bone. Filet mignon ground round prosciutto corned beef shankle ham hock capicola jerky. Pork belly tail pork porchetta pastrami, kielbasa shoulder turkey strip steak rump. Porchetta ham hock spare ribs, pork chop shoulder ham leberkas pancetta drumstick. Pork loin pancetta meatloaf rump tail shoulder ham hamburger ball tip turkey frankfurter flank pork pork chop meatball. Pork loin turducken pork chop chicken. Corned beef tri-tip sirloin, pork belly brisket hamburger ham hock. Drumstick tail spare ribs boudin short loin ground round bacon ribeye hamburger cow doner turkey filet mignon. Pork tongue corned beef porchetta. Pork belly kielbasa meatball beef landjaeger rump. Jowl venison brisket shankle sausage ham hock leberkas doner beef drumstick pig short ribs short loin. Ball tip spare ribs shank, shankle venison pork chop meatloaf tail pork loin prosciutto porchetta. Biltong doner porchetta, short ribs ribeye sirloin beef ham corned beef pastrami swine. Porchetta meatloaf ground round, kevin fatback tri-tip cow pork loin salami sausage strip steak hamburger. Doner tri-tip ham kielbasa, capicola pancetta salami ribeye jerky shankle. Leberkas kielbasa tenderloin, shoulder kevin sausage bresaola cow.',
+    'text': 'Baconipsumdolorsitametandouilledrumstickpastrami,tri-tippigporchettarump.Ribeyeporkloinporkchopkevinhampig,hamhockfrankfurterdonerstripsteakbiltongtri-tippastramiturduckenporkbelly.Porchettaballtiptailbeefribs,andouillebrisketshankt-bonesalamirumpstripsteakdoner.Venisonchuckrumpballtip.Bacondrumstickporkchop,bresaolapigbeefribsmeatloafchuckchickenporkbeefjerkyflankcapicolacow.Porkbellyshanklefiletmignonshortribscornedbeef.Leberkastri-tipchickenbeef,porchettakevinfatbackjerkybresaolaribeyecapicola.Meatballpancettapig,tongueandouilleporchettavenisonporkbellytailspareribsporkchopfrankfurter.Turkeyprosciuttobiltong,sirloinchickenhampork.Flanktailmeatballbeefribsprosciutto.Bresaolapastramisalami,cowfatbacktailshortloinjerkymeatballshoulderfiletmignonkevinporkchopflank.Drumstickballtiphamjerky.Turduckenjowljerkyt-bone.Filetmignongroundroundprosciuttocornedbeefshanklehamhockcapicolajerky.Porkbellytailporkporchettapastrami,kielbasashoulderturkeystripsteakrump.Porchettahamhockspareribs,porkchopshoulderhamleberkaspancettadrumstick.Porkloin pancetta meatloaf rump tail shoulder ham hamburger ball tip turkey frankfurter flank pork pork chop meatball. Pork loin turducken pork chop chicken. Corned beef tri-tip sirloin, pork belly brisket hamburger ham hock. Drumstick tail spare ribs boudin short loin ground round bacon ribeye hamburger cow doner turkey filet mignon. Pork tongue corned beef porchetta. Pork belly kielbasa meatball beef landjaeger rump. Jowl venison brisket shankle sausage ham hock leberkas doner beef drumstick pig short ribs short loin. Ball tip spare ribs shank, shankle venison pork chop meatloaf tail pork loin prosciutto porchetta. Biltong doner porchetta, short ribs ribeye sirloin beef ham corned beef pastrami swine. Porchetta meatloaf ground round, kevin fatback tri-tip cow pork loin salami sausage strip steak hamburger. Doner tri-tip ham kielbasa, capicola pancetta salami ribeye jerky shankle. Leberkas kielbasa tenderloin, shoulder kevin sausage bresaola cow.',
     'roomname': '4chan'
   };
 
