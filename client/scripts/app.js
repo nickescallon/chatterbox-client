@@ -206,7 +206,20 @@ $(document).on('ready', function(){
     fetch();
   });
 
+  $('#arrow').on('click', function(){
+  	if ($('.nav').width() > 0) {
+  	  $('.nav').find('.roomsTitle').fadeOut();
+  	  $('.nav').find('ul').fadeOut();
+  	  $('.nav').animate({width:0});
+  	} else {
+  	  $('.nav').animate({width:200});
+  	  $('.nav').find('.roomsTitle').fadeIn();
+  	  $('.nav').find('ul').fadeIn();
+  	}
+    
+  });
+
   //INITIAL FUNCTION CALLS AND INTERVALS
   fetch();
-  setInterval(fetch.bind(this), 3000);
+  setInterval(fetch.bind(this), 5000);
 });
