@@ -63,9 +63,9 @@ $(document).on('ready', function(){
             if (roomName && roomName.length > 18){
               roomName = shortenString(roomName, 18);
             }
-            var $roomLable = $('<li class="roomLabel" style="display: none;"><a href="#"></a></li>');
-            $roomLable.find('a').text(roomName);
-            $('#roomList').append($roomLable);
+            var $roomLabel = $('<li class="roomLabel"><a href="#"></a></li>');
+            $roomLabel.find('a').text(roomName);
+            $('#roomList').append($roomLabel);
             rooms[key] = 1;
         }
       }
@@ -92,9 +92,9 @@ $(document).on('ready', function(){
             if (userName && userName.length > 18){
               userName = shortenString(userName, 18);
             }
-            var $userLable = $('<li class="userLabel" style="display: none;"><a href="#"></a></li>');
-            $userLable.find('a').text(userName);
-            $('#userList').append($userLable);
+            var $userLabel = $('<li class="userLabel"><a href="#"></a></li>');
+            $userLabel.find('a').text(userName);
+            $('#userList').append($userLabel);
             users[key] = 1;
         }
       }
@@ -206,20 +206,12 @@ $(document).on('ready', function(){
     fetch();
   });
 
-  $('#arrow').on('click', function(){
-  	if ($('.nav').width() > 0) {
-  		console.log("huh?")
-  	  $('.nav').find('.title').fadeOut(200);
-  	  $('.nav').find('.roomLabel').fadeOut(200);
-  	  $('.nav').find('.userLabel').fadeOut(200);
-  	  $('.nav').animate({width:0}, 400);
-  	} else {
-  	  $('.nav').animate({width:200}, 400);
-  	  $('.nav').find('.title').fadeIn(600);
-  	  $('.nav').find('.roomLabel').fadeIn(600);
-  	  $('.nav').find('.userLabel').fadeIn(600);
-  	}
-    
+  $('.slideToggle').on('click', function(){
+    if ($('.nav').width() > 0) {
+      $('.nav').animate({width:0}, 400);
+    } else {
+      $('.nav').animate({width:200}, 400);
+    }
   });
 
   //INITIAL FUNCTION CALLS AND INTERVALS
