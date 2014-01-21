@@ -56,3 +56,7 @@ body {
     padding: 2px 5px;
     text-align: left;
 }
+
+#msgInput {
+    width: 150px;
+}

@@ -41,27 +41,17 @@ $(document).on('ready', function(){
       '</div>'
     );
 
-    // $message.text(username + ": " + text+'\n'+ prettyDate(updatedAt));    
     $message.find('.msgContent').text(text);
     return $message;
   }
 
-
-  // $tweet = $('<div class="tweet">' +
-  //             '<div class="heading">' +
-  //               '<div class="user" data-username="' + tweet.user + '"><span>@' + tweet.user + '</span></div>' +
-  //               '<div class="timestamp" data-created="' + (tweet.created_at || new Date()) + '">' + prettyDate(tweet.created_at || new Date()) + '</div>' +
-  //             '</div>' +
-  //             '<div class="content">' + tweet.message + '</div>' +
-  //           '</div>');
-
   var display = function(msgArray){
     var msg;
     if ($chatContainer.children().length){
-      for (var i = 0; i < msgArray.results.length; i++){
+      for (var i = msgArray.results.length-1; i >= 0; i--){
         $msg = message(msgArray.results[i].text, msgArray.results[i].username, msgArray.results[i].updatedAt);
         $chatContainer.children().last().remove();
-        $chatContainer.append($msg);
+        $chatContainer.prepend($msg);
 
       }
     } else {
@@ -70,6 +60,7 @@ $(document).on('ready', function(){
         $chatContainer.append($msg);
       }
     }
+    fetch();
   }
 
   var fetch = function(){
@@ -101,16 +92,27 @@ $(document).on('ready', function(){
     });
   };
 
-  var messageToSend = {
-    'username': 'adam&&nick',
-    'text': 'Baconipsumdolorsitametandouilledrumstickpastrami,tri-tippigporchettarump.Ribeyeporkloinporkchopkevinhampig,hamhockfrankfurterdonerstripsteakbiltongtri-tippastramiturduckenporkbelly.Porchettaballtiptailbeefribs,andouillebrisketshankt-bonesalamirumpstripsteakdoner.Venisonchuckrumpballtip.Bacondrumstickporkchop,bresaolapigbeefribsmeatloafchuckchickenporkbeefjerkyflankcapicolacow.Porkbellyshanklefiletmignonshortribscornedbeef.Leberkastri-tipchickenbeef,porchettakevinfatbackjerkybresaolaribeyecapicola.Meatballpancettapig,tongueandouilleporchettavenisonporkbellytailspareribsporkchopfrankfurter.Turkeyprosciuttobiltong,sirloinchickenhampork.Flanktailmeatballbeefribsprosciutto.Bresaolapastramisalami,cowfatbacktailshortloinjerkymeatballshoulderfiletmignonkevinporkchopflank.Drumstickballtiphamjerky.Turduckenjowljerkyt-bone.Filetmignongroundroundprosciuttocornedbeefshanklehamhockcapicolajerky.Porkbellytailporkporchettapastrami,kielbasashoulderturkeystripsteakrump.Porchettahamhockspareribs,porkchopshoulderhamleberkaspancettadrumstick.Porkloin pancetta meatloaf rump tail shoulder ham hamburger ball tip turkey frankfurter flank pork pork chop meatball. Pork loin turducken pork chop chicken. Corned beef tri-tip sirloin, pork belly brisket hamburger ham hock. Drumstick tail spare ribs boudin short loin ground round bacon ribeye hamburger cow doner turkey filet mignon. Pork tongue corned beef porchetta. Pork belly kielbasa meatball beef landjaeger rump. Jowl venison brisket shankle sausage ham hock leberkas doner beef drumstick pig short ribs short loin. Ball tip spare ribs shank, shankle venison pork chop meatloaf tail pork loin prosciutto porchetta. Biltong doner porchetta, short ribs ribeye sirloin beef ham corned beef pastrami swine. Porchetta meatloaf ground round, kevin fatback tri-tip cow pork loin salami sausage strip steak hamburger. Doner tri-tip ham kielbasa, capicola pancetta salami ribeye jerky shankle. Leberkas kielbasa tenderloin, shoulder kevin sausage bresaola cow.',
-    'roomname': '4chan'
-  };
+  //input field/button events
+  $('button').on('click', function(e){
+    e.preventDefault();
+    var msg = $('#msgInput').val();
+    var msgToSend = {};
+    msgToSend.text = msg;
+    msgToSend.username = user;
+    msgToSend.roomname = '4chan';
+    sendMsg(msgToSend);
+    $('#msgInput').val('');
+    fetch();
+   });
+
+  $('#msgInput').on('keypress', function(e){
+    if (e.which == 13){
+      $('button').click();
+    }
+  })
 
   fetch();
-  setInterval(fetch.bind(this), 2000);
-  // sendMsg(messageToSend);
-  // sendMsg(messageToSend);
+  setInterval(fetch.bind(this), 5000);
 });
 
 /*
