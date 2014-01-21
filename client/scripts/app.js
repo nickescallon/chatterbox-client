@@ -208,13 +208,16 @@ $(document).on('ready', function(){
 
   $('#arrow').on('click', function(){
   	if ($('.nav').width() > 0) {
-  	  $('.nav').find('.roomsTitle').fadeOut();
-  	  $('.nav').find('ul').fadeOut();
-  	  $('.nav').animate({width:0});
+  	  $('.nav').find('.roomsTitle').fadeOut(200);
+  	  $('.nav').find('ul').fadeOut(200);
+  	  $('.nav').animate({width:0}, 400);
   	} else {
-  	  $('.nav').animate({width:200});
-  	  $('.nav').find('.roomsTitle').fadeIn();
-  	  $('.nav').find('ul').fadeIn();
+  	  $('.nav').animate({width:200}, 400, function(){
+  	  // 	$('.nav').find('.roomsTitle').fadeIn(200);
+  	  // $('.nav').find('ul').fadeIn(200);
+  	  });
+  	  $('.nav').find('.roomsTitle').fadeIn(600);
+  	  $('.nav').find('ul').fadeIn(600);
   	}
     
   });
