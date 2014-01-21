@@ -24,6 +24,8 @@
       <nav class="nav">
         <div class="title"><strong>ROOMS</strong></div>
         <div class="roomHeight">
+          <input id="roomInput" placeholder="create room" maxlength="18"></input>
+          <button id="submitRm">submit</button>
           <ul id="roomList"></ul>
         </div>
         <div class="title"><strong>USERS</strong></div>
@@ -34,7 +36,9 @@
       <div class="slideToggle">
         <div id="arrow">&#10095;</div>
       </div>
-      <div id="chatContainer"></div>
+      <div id="currentRoom">you are in this room dude:<span id="displayRoomTop"></span></div>
+      <div id="chatContainer">
+      </div>
     </div>
   </body>
 </html>

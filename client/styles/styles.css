@@ -150,3 +150,7 @@ nav ul li {
 #msgInput {
     width: 150px;
 }
+
+.bold {
+    font-weight: bold;
+}

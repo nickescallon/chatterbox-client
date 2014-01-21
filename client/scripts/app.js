@@ -32,6 +32,7 @@ $(document).on('ready', function(){
   var currentRoom = '4chan';
   var roomList = {};
   var userList = {};
+  var friendsList = {};
 
 
   //HELPER FUNCTIONS
@@ -117,6 +118,11 @@ $(document).on('ready', function(){
         '<div class="msgContent"></div>' +
       '</div>'
     );
+    if (friendsList[username]){
+      $message.find('.msgContent').addClass('bold');
+      $message.find('.userName').addClass('bold');
+      $message.find('.timestamp').addClass('bold');
+    }
 
     $message.find('.msgContent').text(text);
     return $message;
@@ -128,10 +134,13 @@ $(document).on('ready', function(){
   var displayMsgs = function(msgArray){
     var msg;
     if ($chatContainer.children().length){
+      $chatContainer.children().remove();
       for (var i = msgArray.results.length-1; i >= 0; i--){
         if(msgArray.results[i].roomname === currentRoom){
           $msg = message(msgArray.results[i].text, msgArray.results[i].username, msgArray.results[i].updatedAt);
-            $chatContainer.children().last().remove();
+            if($chatContainer.children().length >= 20){
+              $chatContainer.children().last().remove();
+            }
             $chatContainer.prepend($msg);
           }
           populateRoomList(msgArray.results[i].roomname);
@@ -181,7 +190,7 @@ $(document).on('ready', function(){
   };
 
   //EVENT LISTENERS/HANDLERS
-  $('button').on('click', function(e){
+  $('#submitMsg').on('click', function(e){
     e.preventDefault();
     var msg = $('#msgInput').val();
     var msgToSend = {};
@@ -195,17 +204,37 @@ $(document).on('ready', function(){
 
   $('#msgInput').on('keypress', function(e){
     if (e.which == 13){
-      $('button').click();
+      $('#submitMsg').click();
     }
   });
 
-  $('.nav').on('click', 'a', function(e){
+  $('#submitRm').on('click', function(e){
+    e.preventDefault();
+    currentRoom = $('#roomInput').val();
+    populateRoomList(currentRoom);
+    $('#roomInput').val('');
+    updateTopRoom();
+    fetch();
+   });
+
+  $('#roomInput').on('keypress', function(e){
+    if (e.which == 13){
+      $('#submitRm').click();
+    }
+  });
+
+  $('#roomList').on('click', 'a', function(e){
     e.preventDefault();
     $chatContainer.children().remove();
     currentRoom = $(this).text();
+    updateTopRoom();
     fetch();
   });
 
+  $('#userList').on('click', 'a', function(){
+    friendsList[$(this).text()] = $(this).text();
+    fetch();
+  });
   $('.slideToggle').on('click', function(){
     if ($('.nav').width() > 0) {
       $('.nav').animate({width:0}, 400);
@@ -214,7 +243,12 @@ $(document).on('ready', function(){
     }
   });
 
+  var updateTopRoom = function(){
+    $('#displayRoomTop').text(' ' + currentRoom);
+  }
+
   //INITIAL FUNCTION CALLS AND INTERVALS
   fetch();
+  updateTopRoom();
   setInterval(fetch.bind(this), 5000);
 });
