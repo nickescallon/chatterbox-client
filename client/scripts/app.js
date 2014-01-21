@@ -1,8 +1,10 @@
 // YOUR CODE HERE:
+//Takes in a string and returns its assigned value from the URL
 function loadPageVar (sVar) {
   return decodeURI(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURI(sVar).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
 }
 
+//Takes in a timestamp and returns it in a human-friendly format
 var prettyDate = function(timeStamp){
   var currentDate = new Date();
   var currentTime = currentDate.getTime();
@@ -23,22 +25,56 @@ var prettyDate = function(timeStamp){
 };
 
 $(document).on('ready', function(){
+  
+  //INITIALIZE VARIABLES
   var user = loadPageVar('username');
   var $chatContainer = $('#chatContainer');
-
   var currentRoom = '4chan';
   var roomList = {};
+  var userList = {};
 
+
+  //HELPER FUNCTIONS
+  //Accepts a string and a character limit, and returns the
+  //shortened string (up to the limit) + ...
   var shortenString = function(str, limit){
     str = str.split('').splice(0,limit).join('');
     str+='...';
     return str;
   }
 
+  //ROOM LIST FUNCTIONS
+  //Accepts a string and adds it to the roomList object
+  var populateRoomList = function(roomname){
+    // debugger;
+    if(roomname){
+      if (roomList[roomname] === undefined){
+        roomList[roomname] = 0;
+      }
+    }
+  }
+  
+  //Iterates through the roomlist object and appends them to the roomList UL
+  var displayRoomList = function(rooms){
+    if (Object.keys(rooms).length){
+      for (key in rooms){
+        if (rooms[key] === 0){
+            var roomName = key;
+            if (roomName && roomName.length > 18){
+              roomName = shortenString(roomName, 18);
+            }
+            $('ul').append('<li class="roomLabel"><a href="#">'+roomName+'</a></li>');
+            rooms[key] = 1;
+        }
+      }
+    }
+  }
+
+  //MESSAGE FUNCTIONS
+  //Accepts text, a username, and a timestamp, and returns an jQuery object 
+  //of a structured html message
   var message = function(text, username, updatedAt){
     if (text && text.length > 140){
-      // text = text.split('').splice(0,141).join('');
-      // text+='...';
       text = shortenString(text, 141);
     }
     $message = $(
@@ -55,30 +91,9 @@ $(document).on('ready', function(){
     return $message;
   }
 
-  var populateRoomList = function(roomname){
-    // debugger;
-    if(roomname){
-      if (roomList[roomname] === undefined){
-        roomList[roomname] = 0;
-      }
-    }
-  }
-
-  var displayRoomList = function(rooms){
-    if (Object.keys(rooms).length){
-      for (key in rooms){
-        if (rooms[key] === 0){
-            var roomName = key;
-            if (roomName && roomName.length > 18){
-              roomName = shortenString(roomName, 18);
-            }
-            $('ul').append('<li class="roomLabel"><a href="#">'+roomName+'</a></li>');
-            rooms[key] = 1;
-        }
-      }
-    }
-  }
-
+  //Accepts an array of messages. Iterates through the array, builds a message object for each item,
+  //then removes the last message item in chatContainer, and prepends the new one.
+  //Also populates the user and room lists
   var displayMsgs = function(msgArray){
     var msg;
     if ($chatContainer.children().length){
@@ -102,7 +117,8 @@ $(document).on('ready', function(){
     }
     displayRoomList(roomList);
   }
-
+  
+  //Fetches the most recent messages from the server and calls displayMsgs upon success
   var fetch = function(){
     $.ajax({
       url: 'https://api.parse.com/1/classes/chatterbox',
@@ -114,6 +130,7 @@ $(document).on('ready', function(){
     });
   };
 
+  //Accepts a JSON message object and sends it to the server
   var sendMsg = function(message){
     $.ajax({
       // always use this url
@@ -130,7 +147,7 @@ $(document).on('ready', function(){
     });
   };
 
-  //input field/button events
+  //EVENT LISTENERS/HANDLERS
   $('button').on('click', function(e){
     e.preventDefault();
     var msg = $('#msgInput').val();
@@ -156,7 +173,7 @@ $(document).on('ready', function(){
     fetch();
   });
 
+  //INITIAL FUNCTION CALLS AND INTERVALS
   fetch();
-  
   setInterval(fetch.bind(this), 3000);
 });
