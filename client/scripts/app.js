@@ -63,7 +63,9 @@ $(document).on('ready', function(){
             if (roomName && roomName.length > 18){
               roomName = shortenString(roomName, 18);
             }
-            $('ul').append('<li class="roomLabel"><a href="#">'+roomName+'</a></li>');
+            var $roomLable = $('<li class="roomLabel"><a href="#"></a></li>');
+            $roomLable.text(roomName);
+            $('ul').append($roomLable);
             rooms[key] = 1;
         }
       }
